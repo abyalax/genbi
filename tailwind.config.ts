@@ -1,8 +1,8 @@
-import plugin from "tailwindcss/plugin";
-import type { Config } from "tailwindcss";
-import { PluginAPI } from "tailwindcss/types/config";
+import type { Config } from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
 
-const pluginRounded = plugin(function ({ addUtilities }: PluginAPI) {
+const pluginRounded = plugin(({ addUtilities }) => {
+  console.log('✅ Rounded plugin loaded');
   const newUtilities = {
     '.rounded-custom': {
       'border-top-left-radius': '90rem',
@@ -14,48 +14,56 @@ const pluginRounded = plugin(function ({ addUtilities }: PluginAPI) {
   addUtilities(newUtilities);
 });
 
-
 const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/admin/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/admin/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/admin/news/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/admin/news/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/news/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/news/*.{js,ts,jsx,tsx,mdx}",
-    "./src/component/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/component/*.{js,ts,jsx,tsx,mdx}",
-    "./src/context/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  plugins: [pluginRounded],
   theme: {
     extend: {
-      screens: {
-        ml:"950px",
-        mml: "850px", // Custom breakpoint dengan min-width
-        xs: "500px",
-        xxs: "300px",
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        'slide-from-left': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'slide-to-left': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        'slide-from-right': {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'slide-to-right': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        'fade-out': {
+          from: { opacity: '1' },
+          to: { opacity: '0' },
+        },
       },
-      backgroundColor:{
-        "toska-light": "#21A4A4",
-        "toska": "#1C8383",
-        "toska-dark": "#146767",
-      },
-      colors: {
-        "toska-light": "#21A4A4",
-        "toska": "#1C8383",
-        "toska-dark": "#146767",
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'slide-from-left': 'slide-from-left 0.3s ease-out',
+        'slide-to-left': 'slide-to-left 0.3s ease-out',
+        'slide-from-right': 'slide-from-right 0.3s ease-out',
+        'slide-to-right': 'slide-to-right 0.3s ease-out',
+        'fade-in': 'fade-in 0.3s ease-out',
+        'fade-out': 'fade-out 0.3s ease-out',
       },
     },
   },
-  plugins: [
-    pluginRounded, 
-    require('@tailwindcss/typography')
-  ],
+  content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 };
 export default config;

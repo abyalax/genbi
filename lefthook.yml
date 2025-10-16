@@ -1,0 +1,13 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: npx biome format --write {staged_files}
+
+    lint:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: npx biome lint {staged_files}
+
+    build:
+      run: pnpm build
