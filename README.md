@@ -125,4 +125,45 @@ Aplikasi akan tersedia di [http://localhost:8000](http://localhost:8000)
 
 ---
 
+## Development dengan Docker (opsional)
+
+Jika kamu ingin menjalankan hanya database untuk pengembangan lokal tanpa menjalankan seluruh stack, ada file `docker-compose.dev.yaml` yang men-define Postgres dan Adminer.
+
+Langkah singkat:
+
+1. Jalankan Postgres + Adminer:
+
+```bash
+docker compose up -d
+```
+
+2. Buka Adminer di browser:
+
+- URL: http://localhost:8081
+- DB system: PostgreSQL
+- Server: `genbi-psql` (jika memilih koneksi antar-container dari Adminer) — atau `localhost` jika mengakses Adminer dari host
+- Username: `genbi_postgres`
+- Password: `genbi_postgres`
+- Database: `db_genbi`
+
+3. Matikan services:
+
+```bash
+docker compose down
+```
+
+Catatan penting:
+
+- Data Postgres disimpan di volume bernama `genbi_pgdata`, jadi data tetap bertahan saat container direcreate.
+- Jika kamu sudah menggunakan `./pgdata` sebagai direktori host sebelumnya, data itu tidak otomatis dipindahkan ke volume bernama — beri tahu saya jika kamu butuh migrasi data.
+- Jika ingin menjalankan seluruh aplikasi (PHP + Nginx + Postgres) gunakan `docker-compose.yaml` utama:
+
+```bash
+docker compose up -d --build
+```
+
+- Lokasi `php.ini` kustom yang dipasang ke container ada di `docker/php.ini`.
+
+Jika mau, saya bisa menambahkan snippet README yang menjelaskan bagaimana menambahkan target `make` atau skrip npm/pnpm untuk menjalankan env dev ini lebih singkat.
+
 Apakah kamu ingin saya tambahkan juga versi “production setup” (misalnya untuk deploy manual di VPS tanpa Docker)?
